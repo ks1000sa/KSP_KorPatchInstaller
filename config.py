@@ -1,6 +1,7 @@
 APP_NAME = "KSP 한글패치 통합설치기"
 APP_VERSION = "3.0.0"
 GITHUB_REPO = "ks1000sa/KSP_KorPatchFiles"
+INSTALLER_REPO = "ks1000sa/KSP_KorPatchInstaller" 
 PATCH_FILE_MAP = {
     "1.12.2 ~ 1.12.5 (latest)": 0,
     "1.12.0 ~ 1.12.1": 1,
