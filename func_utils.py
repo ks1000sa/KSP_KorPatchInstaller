@@ -47,8 +47,21 @@ def animate_path(widget, text_prefix="처리중입니다", delay=500):
     return stop
 
 def fade_image(canvas, image_path, canvas_img_id, fade_in=True, steps=20, delay=40, callback=None):
-    pil_base = Image.open(image_path).convert("RGBA")
-    original_data = pil_base.getdata()
+    if not os.path.exists(image_path):
+        logger.warning(f"fade 이미지 없음: {image_path}")
+        if callback:
+            callback()
+        return {}
+
+    try:
+        pil_base = Image.open(image_path).convert("RGBA")
+        original_data = pil_base.getdata()
+    except Exception as e:
+        logger.warning(f"fade 이미지 로딩 실패: {image_path} - {e}")
+        if callback:
+            callback()
+        return {}
+    
     alpha_start = 0 if fade_in else 255
     alpha_end = 255 if fade_in else 0
     image_refs = {}
