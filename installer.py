@@ -705,7 +705,10 @@ class InstallerApp(tk.Tk):
         self.geometry(f"{width}x{height}+{x}+{y}")
         self.minsize(width, height)
         self.resizable(False, False)
-        self.iconbitmap(resource_path("icon.ico"))
+        try:
+            self.iconbitmap(resource_path("icon.ico"))
+        except Exception as e:
+            logger.warning(f"아이콘 설정 실패: {e}")
         self.frames = {}
         threading.Thread(target=play_music, daemon=True).start()
         style = ttk.Style()
@@ -723,8 +726,17 @@ class InstallerApp(tk.Tk):
         self.volume_slider.place(x=1080, y=20, width=100)
         self.previous_volume = 0.25
         self.is_muted = False
-        self.speaker_img = ImageTk.PhotoImage(Image.open(resource_path("icon_01.png")).resize((20, 20)))
-        self.mute_img = ImageTk.PhotoImage(Image.open(resource_path("icon_02.png")).resize((20, 20)))
+        try:
+            self.speaker_img = ImageTk.PhotoImage(Image.open(resource_path("icon_01.png")).resize((20, 20)))
+        except Exception as e:
+            logger.warning(f"스피커 아이콘 로딩 실패: {e}")
+            self.speaker_img = None
+
+        try:
+            self.mute_img = ImageTk.PhotoImage(Image.open(resource_path("icon_02.png")).resize((20, 20)))
+        except Exception as e:
+            logger.warning(f"음소거 아이콘 로딩 실패: {e}")
+            self.mute_img = None
         self.speaker_btn = tk.Label(self, image=self.speaker_img, bg="#0c0e0d", cursor="hand2")
         self.speaker_btn.bind("<Button-1>", lambda e: self.toggle_mute())
         self.speaker_btn.place(x=1045, y=16, width=24, height=24)
