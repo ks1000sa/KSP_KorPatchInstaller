@@ -1,5 +1,0 @@
-requests
-pillow
-pygame
-packaging
-pyinstaller
